@@ -18,7 +18,7 @@ public class UserLogin {
         try{
             Class.forName(driver);
             System.out.println("Driver Loaded...");
-            con = DriverManager.getConnection(url+db, "root", "password123!");
+            con = DriverManager.getConnection(url+db, "root", "");
             System.out.println("Connection Established..."); 
         }catch(ClassNotFoundException e){
         }catch(SQLException e){

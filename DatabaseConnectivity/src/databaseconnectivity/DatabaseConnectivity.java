@@ -13,7 +13,7 @@ public class DatabaseConnectivity {
         try{
             Class.forName(drive);
             System.out.println("Driver Loaded...");
-            con = DriverManager.getConnection(url+db, "root", "password123!");
+            con = DriverManager.getConnection(url+db, "root", "");
             System.out.println("Connection Established...");
         }catch(ClassNotFoundException e){
             System.out.println("Driver Not Loaded...");
