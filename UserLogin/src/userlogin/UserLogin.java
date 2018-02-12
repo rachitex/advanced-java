@@ -46,6 +46,7 @@ public class UserLogin {
             }
             rs.close();
             stmt.close();
+            scan.close();
         }catch(SQLException e){
             e.printStackTrace();
         }catch(Exception e){
