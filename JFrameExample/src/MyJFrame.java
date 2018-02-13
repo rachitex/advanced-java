@@ -1,13 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/**
- *
- * @author moon
- */
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+import java.sql.Connection;
+import jframeexample.JFrameExample;
+
 public class MyJFrame extends javax.swing.JFrame {
 
     /**
@@ -108,7 +106,31 @@ public class MyJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+         new JFrameExample();
+        Statement stmt = null;
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Enter User ID: ");
+        String userid = scan.next();
+        System.out.print("Enter Password: ");
+        String password = scan.next();
+        String selectQuery = "select * from login where id = '"+userid+"'AND "
+                + "pass = '"+password+"';";
+        try{
+            Connection con = null;
+            stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(selectQuery);
+            if(rs.next()){
+                System.out.println("Successful Login!!!");
+            }else{
+                System.out.println("Invalid Username or Password!!!");
+            }
+            rs.close();
+            stmt.close();
+            scan.close();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }catch(Exception e){
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
