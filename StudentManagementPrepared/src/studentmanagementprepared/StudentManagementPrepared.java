@@ -6,10 +6,13 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.util.Scanner;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.util.ArrayList;
 
 public class StudentManagementPrepared {
 
     static Connection con = null;
+    static ResultSetMetaData metadata = null;
     String url = "jdbc:mysql://localhost:3306/";
     String db = "studentprep";
     String driver = "com.mysql.jdbc.Driver";
@@ -185,6 +188,10 @@ public class StudentManagementPrepared {
                                        grade = rs.getString("grade");
                                        System.out.println("Grade: "+grade+"\n");
                                     } 
+                                    metadata = rs.getMetaData();
+                                    String[] table = {};
+                                    ArrayList<String> tables = null;
+                                    //rs = metadata.getTables();
                                     rs.close();
                                     pstmt.close();
                                 }catch(Exception e){
