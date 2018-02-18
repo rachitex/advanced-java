@@ -91,6 +91,7 @@ public class StudentManagementCallable {
                     }catch(Exception e){
                     }
                     break;
+                    
                 case 2:
                     System.out.println("Press 1 for fetching distinction");
                     System.out.println("Press 2 for fetching failure");
@@ -138,6 +139,7 @@ public class StudentManagementCallable {
                             System.out.println("Enter Valid Choice!!!");
                     }
                     break;
+                    
                 case 3:
                     callSQL = "{ call fetch_merit_list }";
                     try{
@@ -161,6 +163,7 @@ public class StudentManagementCallable {
                         }catch(Exception e){
                         }
                     break;
+                    
                 case 4:
                     callSQL = "{ call fetch_gender_merit_list }";
                     try{
@@ -184,6 +187,221 @@ public class StudentManagementCallable {
                         }catch(Exception e){
                         }
                     break;
+                    
+                case 5:
+                    System.out.print("Enter the roll no: ");
+                    rollNo = scan.nextInt();
+                    callSQL = "{ call search_student_rollno(?) }";
+                    try{
+                        cstmt = con.prepareCall(callSQL);
+                        cstmt.setInt(1, rollNo);
+                        boolean hadResult = cstmt.execute();
+                        if(hadResult){
+                            rs = cstmt.getResultSet();
+                            while(rs.next()){
+                                System.out.println("\nRoll No: "+rollNo);
+                                String name = rs.getString("name");
+                                System.out.println("Name: "+name);
+                                dob = rs.getString("dob");
+                                System.out.println("Date of Birth: "+dob);
+                                gender = rs.getString("gender");
+                                System.out.println("Gender: "+gender);
+                                cMarks = rs.getInt("cmarks");
+                                System.out.println("C Marks: "+cMarks);
+                                cppMarks = rs.getInt("cppmarks");
+                                System.out.println("C++ Marks: "+cppMarks);
+                                javaMarks = rs.getInt("javamarks");
+                                System.out.println("Java Marks: "+javaMarks);
+                                int totalMarks = rs.getInt("total");
+                                System.out.println("Total: "+totalMarks);
+                                float percentage = rs.getFloat("percentage");
+                                System.out.println("Percentage: "+Math.round(percentage)*100.0/100.0);
+                                String grade = rs.getString("grade");
+                                System.out.println("Grade: "+grade+"\n");
+                            }
+                        }else{
+                            System.out.println("No record found..");
+                        }
+                        rs.close();
+                        cstmt.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                    break;
+                    
+                case 6:
+                    System.out.print("\nEnter the Year: ");
+                    int year = scan.nextInt();
+                    System.out.print("Enter the Month: ");
+                    int month = scan.nextInt();
+                    System.out.println("Enter the Day: ");
+                    int day = scan.nextInt();
+                    dob = year+"-"+month+"-"+day;
+                    callSQL = "{ call search_student_dob(?) }";
+                    try{
+                        cstmt = con.prepareCall(callSQL);
+                        cstmt.setString(1, dob);
+                        boolean hadResult = cstmt.execute();
+                        if(hadResult){
+                            rs = cstmt.getResultSet();
+                            while(rs.next()){
+                                rollNo = rs.getInt("rollno");
+                                System.out.println("\nRoll No: "+rollNo);
+                                String name = rs.getString("name");
+                                System.out.println("Name: "+name);
+                                dob = rs.getString("dob");
+                                System.out.println("Date of Birth: "+dob);
+                                gender = rs.getString("gender");
+                                System.out.println("Gender: "+gender);
+                                cMarks = rs.getInt("cmarks");
+                                System.out.println("C Marks: "+cMarks);
+                                cppMarks = rs.getInt("cppmarks");
+                                System.out.println("C++ Marks: "+cppMarks);
+                                javaMarks = rs.getInt("javamarks");
+                                System.out.println("Java Marks: "+javaMarks);
+                                int totalMarks = rs.getInt("total");
+                                System.out.println("Total: "+totalMarks);
+                                float percentage = rs.getFloat("percentage");
+                                System.out.println("Percentage: "+Math.round(percentage)*100.0/100.0);
+                                String grade = rs.getString("grade");
+                                System.out.println("Grade: "+grade+"\n");
+                            }
+                        }else{
+                            System.out.println("No record found..");
+                        }
+                        rs.close();
+                        cstmt.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                    break;
+                    
+                case 7: 
+                    System.out.print("\nEnter the Name: ");
+                    String userName = scan.next();
+                    callSQL = "{ call search_student_name(?) }";
+                    try{
+                        cstmt = con.prepareCall(callSQL);
+                        cstmt.setString(1, userName);
+                        boolean hadResult = cstmt.execute();
+                        if(hadResult){
+                            rs = cstmt.getResultSet();
+                            while(rs.next()){
+                                rollNo = rs.getInt("rollno");
+                                System.out.println("\nRoll No: "+rollNo);
+                                String name = rs.getString("name");
+                                System.out.println("Name: "+name);
+                                dob = rs.getString("dob");
+                                System.out.println("Date of Birth: "+dob);
+                                gender = rs.getString("gender");
+                                System.out.println("Gender: "+gender);
+                                cMarks = rs.getInt("cmarks");
+                                System.out.println("C Marks: "+cMarks);
+                                cppMarks = rs.getInt("cppmarks");
+                                System.out.println("C++ Marks: "+cppMarks);
+                                javaMarks = rs.getInt("javamarks");
+                                System.out.println("Java Marks: "+javaMarks);
+                                int totalMarks = rs.getInt("total");
+                                System.out.println("Total: "+totalMarks);
+                                float percentage = rs.getFloat("percentage");
+                                System.out.println("Percentage: "+Math.round(percentage)*100.0/100.0);
+                                String grade = rs.getString("grade");
+                                System.out.println("Grade: "+grade+"\n");
+                            }
+                        }else{
+                            System.out.println("No record found..");
+                        }
+                        rs.close();
+                        cstmt.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                    break;
+                    
+                case 8:
+                    System.out.print("\nEnter the Percentage: ");
+                    float userPercentage = scan.nextFloat();
+                    callSQL = "{ call search_student_percentage(?) }";
+                    try{
+                        cstmt = con.prepareCall(callSQL);
+                        cstmt.setFloat(1, userPercentage);
+                        boolean hadResult = cstmt.execute();
+                        if(hadResult){
+                            rs = cstmt.getResultSet();
+                            while(rs.next()){
+                                rollNo = rs.getInt("rollno");
+                                System.out.println("\nRoll No: "+rollNo);
+                                String name = rs.getString("name");
+                                System.out.println("Name: "+name);
+                                dob = rs.getString("dob");
+                                System.out.println("Date of Birth: "+dob);
+                                gender = rs.getString("gender");
+                                System.out.println("Gender: "+gender);
+                                cMarks = rs.getInt("cmarks");
+                                System.out.println("C Marks: "+cMarks);
+                                cppMarks = rs.getInt("cppmarks");
+                                System.out.println("C++ Marks: "+cppMarks);
+                                javaMarks = rs.getInt("javamarks");
+                                System.out.println("Java Marks: "+javaMarks);
+                                int totalMarks = rs.getInt("total");
+                                System.out.println("Total: "+totalMarks);
+                                float percentage = rs.getFloat("percentage");
+                                System.out.println("Percentage: "+Math.round(percentage)*100.0/100.0);
+                                String grade = rs.getString("grade");
+                                System.out.println("Grade: "+grade+"\n");
+                            }
+                        }else{
+                            System.out.println("No record found..");
+                        }
+                        rs.close();
+                        cstmt.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                    break;
+                    
+                case 9:
+                    System.out.print("\nEnter the Grade: ");
+                    String userGrade = scan.next();
+                    callSQL = "{ call search_student_grade(?) }";
+                    try{
+                        cstmt = con.prepareCall(callSQL);
+                        cstmt.setString(1, userGrade);
+                        boolean hadResult = cstmt.execute();
+                        if(hadResult){
+                            rs = cstmt.getResultSet();
+                            while(rs.next()){
+                                rollNo = rs.getInt("rollno");
+                                System.out.println("\nRoll No: "+rollNo);
+                                String name = rs.getString("name");
+                                System.out.println("Name: "+name);
+                                dob = rs.getString("dob");
+                                System.out.println("Date of Birth: "+dob);
+                                gender = rs.getString("gender");
+                                System.out.println("Gender: "+gender);
+                                cMarks = rs.getInt("cmarks");
+                                System.out.println("C Marks: "+cMarks);
+                                cppMarks = rs.getInt("cppmarks");
+                                System.out.println("C++ Marks: "+cppMarks);
+                                javaMarks = rs.getInt("javamarks");
+                                System.out.println("Java Marks: "+javaMarks);
+                                int totalMarks = rs.getInt("total");
+                                System.out.println("Total: "+totalMarks);
+                                float percentage = rs.getFloat("percentage");
+                                System.out.println("Percentage: "+Math.round(percentage)*100.0/100.0);
+                                String grade = rs.getString("grade");
+                                System.out.println("Grade: "+grade+"\n");
+                            }
+                        }else{
+                            System.out.println("No record found..");
+                        }
+                        rs.close();
+                        cstmt.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                    break;
+                    
                 case 10:
                     callSQL = "{ call fetch_failure_count }";
                     try{
@@ -198,12 +416,15 @@ public class StudentManagementCallable {
                             System.out.println("Number of Failures: "+count);
                             rs.close();
                             cstmt.close();
+                        }else{
+                            System.out.println("No record found..");
                         }
                     }catch(SQLException e){
                         e.printStackTrace();
                     }catch(Exception e){
                     }
                     break;
+                    
                 case 11:
                     callSQL = "{ call fetch_failure_female }";
                     try{
@@ -218,6 +439,8 @@ public class StudentManagementCallable {
                             }
                             rs.close();
                             cstmt.close();
+                        }else{
+                            System.out.println("No record found..");
                         }
                     }catch(SQLException e){
                         e.printStackTrace();
@@ -239,12 +462,15 @@ public class StudentManagementCallable {
                             }
                             rs.close();
                             cstmt.close();
+                        }else{
+                            System.out.println("No record found..");
                         }
                     }catch(SQLException e){
                         e.printStackTrace();
                     }catch(Exception e){
                     }
                     break;
+                    
                 default:
                     System.out.println("Enter Valid Choice!!!");
             }

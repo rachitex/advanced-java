@@ -1,0 +1,329 @@
+MySQL:
+1. Create a table student
+2. Insert 10 records
+3. Create a table marks
+4. Insert 10 records
+5. Create Procedure calculate_totalmarks
+6. Create Procedure calculate_percentage
+7. Create Procedure calculate_grade
+8. Create Procedure calculate_result
+
+
+Java:
+1. Load JDBC Driver
+2. Establish a Connection
+3. Create CallableStatement object
+4. Take the RollNo from user
+5. Prepare the statement to send it to MySql
+6. Fetch the result
+7. Display the result in Console
+
+Java project available on Github.com/rachitex/advanced-java
+
+Database Name: studentcall
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create table student(
+	rollno int(10),
+	firstname varchar(25),
+	surname varchar(25),
+	gender varchar(6),
+	dob date,
+	PRIMARY KEY (rollno)
+);
+
+create table marks(
+	rno int(10),
+	cmarks varchar(10),
+	cppmarks varchar(10),
+	javamarks varchar(10),
+	FOREIGN KEY (rno) REFERENCES student(rollno)
+);
+
+
+insert into student values
+(100, 'Manoj', 'Sharma', 'male', '1990-01-01'),
+(101, 'Avinash', 'Singh', 'male', '1990-01-01'),
+(102, 'Vinay', 'Makwana', 'male', '1990-01-01'),
+(103, 'Viral', 'Soni', 'female', '1990-01-01'),
+(104, 'Jugal', 'Kalal', 'female', '1990-01-01'),
+(105, 'Tilak', 'Gupta', 'male', '1990-01-01'),
+(106, 'Jitendra', 'Yadav', 'male', '1990-01-01'),
+(107, 'Shruti', 'Patel', 'female', '1990-01-01'),
+(108, 'Milan', 'Shrivastava', 'male', '1990-01-01'),
+(109, 'Ayaan', 'Vora', 'male', '1990-01-01');
+
+
+insert into marks values
+(100, 45, 50, 60),
+(101, 52, 70, 70),
+(102, 87, 80, 80),
+(103, 78, 65, 14),
+(104, 45, 78, 80),
+(105, 60, 65, 70),
+(106, 78, 45, 45),
+(107, 77, 89, 65),
+(108, 78, 54, 68),
+(109, 35, 45, 78);
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS calculate_totalmarks;
+CREATE PROCEDURE calculate_totalmarks (
+	IN p_rno int,
+	OUT p_totalmarks int
+)
+BEGIN
+	SELECT cmarks + cppmarks + javamarks INTO p_totalmarks from marks where rno = p_rno;
+END$$
+
+
+DROP PROCEDURE IF EXISTS calculate_percentage;
+CREATE PROCEDURE calculate_percentage (
+	IN p_rno int,
+	OUT p_percentage double
+)
+BEGIN
+	SELECT rno INTO p_rno from marks where rno = p_rno;
+	CALL calculate_totalmarks(p_rno, @v_total);
+	SET p_percentage = @v_total/3;
+END$$
+
+
+DROP PROCEDURE IF EXISTS calculate_grade;
+CREATE PROCEDURE calculate_grade (
+	IN p_rno int,
+	OUT p_grade varchar(20)
+)
+BEGIN
+	DECLARE v_cmarks int;
+	DECLARE v_cppmarks int;
+	DECLARE v_javamarks int;
+	SELECT rno INTO p_rno from marks where rno = p_rno;
+	SET v_cmarks = (SELECT cmarks FROM marks where rno = p_rno);
+	SET v_cppmarks = (SELECT cppmarks FROM marks where rno = p_rno);
+	SET v_javamarks = (SELECT javamarks FROM marks where rno = p_rno);
+	CALL calculate_percentage(p_rno, @v_percentage);
+
+	IF (v_cmarks >= 40 OR v_cppmarks >= 40 OR v_javamarks >= 40)	
+	THEN
+		IF (@v_percentage >= 75)
+		THEN
+			SET p_grade = 'distinction';
+		ELSEIF (@v_percentage >= 65 and @v_percentage < 75)
+		THEN
+			SET p_grade = 'first class';
+		ELSEIF (@v_percentage >= 40 and @v_percentage < 65)
+		THEN
+			SET p_grade = 'pass';
+		END IF;
+	ELSE 
+		SET p_grade = 'fail';	
+	END IF; 
+	SELECT p_grade;
+END$$
+
+
+DROP PROCEDURE IF EXISTS calculate_result;
+CREATE PROCEDURE calculate_result (
+	IN p_rno int,
+	OUT p_name VARCHAR(30),
+	OUT p_totalmarks int,
+	OUT p_percentage double,
+	OUT p_grade varchar(20)
+)
+BEGIN
+	SELECT rno INTO p_rno from marks where rno = p_rno;
+	CALL calculate_totalmarks(p_rno, @v_totalmarks);
+	SET p_totalmarks = @v_totalmarks;
+	CALL calculate_percentage(p_rno, @v_percentage);
+	SET p_percentage = @v_percentage;
+	CALL calculate_grade(p_rno, @v_grade);
+	SET p_grade = @v_grade;
+
+	SELECT CONCAT_WS(' ', firstname, surname) INTO p_name FROM student where rollno = p_rno;
+	SELECT p_totalmarks;
+	SELECT p_percentage;
+	SELECT p_grade;
+END$$
+
+
+
+
+DROP PROCEDURE IF EXISTS fetch_distinction;
+CREATE PROCEDURE fetch_distinction (	
+)
+BEGIN 
+	SELECT CONCAT_WS(' ', firstname, surname) AS name, (m.cmarks + m.cppmarks + m.javamarks)/3 AS percentage FROM student s JOIN marks m ON s.rollno = m.rno HAVING percentage > 75;
+
+END$$
+
+
+DROP PROCEDURE IF EXISTS fetch_failure;
+CREATE PROCEDURE fetch_failure (	
+)
+BEGIN
+		
+	SELECT CONCAT_WS(' ', firstname, surname) AS name, m.cmarks, m.cppmarks, m.javamarks FROM student s JOIN marks m ON s.rollno = m.rno WHERE m.cmarks < 40 OR m.cppmarks < 40 OR m.javamarks < 40;
+
+END$$
+
+
+DROP PROCEDURE IF EXISTS fetch_merit_list;
+CREATE PROCEDURE fetch_merit_list (	
+)
+BEGIN
+		
+	SELECT s.rollno, CONCAT_WS(' ', firstname, surname) AS name, (m.cmarks + m.cppmarks + m.javamarks)/3 AS percentage, s.dob, s.gender FROM student s JOIN marks m ON s.rollno = m.rno ORDER BY percentage DESC;
+
+END$$
+
+
+DROP PROCEDURE IF EXISTS fetch_gender_merit_list;
+CREATE PROCEDURE fetch_gender_merit_list (	
+)
+BEGIN
+		
+	SELECT s.rollno, CONCAT_WS(' ', firstname, surname) AS name, (m.cmarks + m.cppmarks + m.javamarks)/3 AS percentage, s.dob, s.gender FROM student s JOIN marks m ON s.rollno = m.rno ORDER BY gender ASC, percentage DESC;
+
+END$$
+
+
+
+DROP PROCEDURE IF EXISTS fetch_failure_count;
+CREATE PROCEDURE fetch_failure_count (	
+)
+BEGIN
+		
+	SELECT DISTINCT COUNT(*) FROM student s JOIN marks m ON s.rollno = m.rno WHERE m.cmarks < 40 OR m.cppmarks < 40 OR m.javamarks < 40;
+
+END$$
+
+
+
+DROP PROCEDURE IF EXISTS fetch_topper_female;
+CREATE PROCEDURE fetch_topper_female (	
+)
+BEGIN 
+	SELECT CONCAT_WS(' ', firstname, surname) AS name, (m.cmarks + m.cppmarks + m.javamarks)/3 AS percentage FROM student s JOIN marks m ON s.rollno = m.rno WHERE gender = 'female' ORDER BY percentage DESC;
+
+END$$
+
+
+DROP PROCEDURE IF EXISTS fetch_failure_female;
+CREATE PROCEDURE fetch_failure_female (	
+)
+BEGIN
+		
+	SELECT CONCAT_WS(' ', firstname, surname) AS name, m.cmarks, m.cppmarks, m.javamarks FROM student s JOIN marks m ON s.rollno = m.rno WHERE gender = 'female' AND m.cmarks < 40 OR m.cppmarks < 40 OR m.javamarks < 40;
+
+END$$
+
+
+DROP FUNCTION IF EXISTS calculate_grade;
+CREATE FUNCTION calculate_grade (p_rno INT)
+RETURNS VARCHAR(20)
+DETERMINISTIC
+BEGIN
+	DECLARE p_grade VARCHAR(20);
+	DECLARE grade VARCHAR(20);
+	DECLARE v_cmarks int;
+	DECLARE v_cppmarks int;
+	DECLARE v_javamarks int;
+	DECLARE percentage FLOAT;
+
+	SELECT rno INTO p_rno FROM marks WHERE rno = p_rno;
+	SELECT cmarks INTO v_cmarks FROM marks WHERE rno = p_rno;
+	SELECT cppmarks INTO v_cppmarks FROM marks WHERE rno = p_rno;
+	SELECT javamarks INTO v_javamarks FROM marks WHERE rno = p_rno;
+	CALL calculate_percentage(p_rno, @v_percentage);
+	SELECT @v_percentage INTO percentage;
+	IF (v_cmarks >= 40 AND v_cppmarks >= 40 AND v_javamarks >= 40)	
+	THEN
+		IF (percentage >= 75)
+		THEN
+			SET p_grade = 'distinction';
+		ELSEIF (percentage >= 65 and percentage < 75)
+		THEN
+			SET p_grade = 'first class';
+		ELSEIF (percentage >= 40 and percentage < 65)
+		THEN
+			SET p_grade = 'pass';
+		END IF;
+	ELSEIF (v_cmarks < 40 OR v_cppmarks < 40 OR v_javamarks < 40) 
+	THEN
+		SET p_grade = 'fail';	
+	END IF; 
+	SELECT p_grade INTO grade;
+	RETURN grade;
+END$$
+
+
+
+DROP PROCEDURE IF EXISTS search_student_rollno;
+CREATE PROCEDURE search_student_rollno (
+	IN p_rno int
+)
+BEGIN
+	SELECT DISTINCT s.rollno, CONCAT_WS(' ',s.firstname, s.surname) AS name, s.dob, s.gender , m.cmarks, m.cppmarks, m.javamarks, m.cmarks+m.cppmarks+m.javamarks AS total, (m.cmarks+m.cppmarks+m.javamarks)/3 AS percentage, calculate_grade(p_rno) AS grade FROM student s JOIN marks m ON s.rollno = m.rno WHERE rollno = p_rno;
+
+END$$
+
+
+DROP PROCEDURE IF EXISTS search_student_dob;
+CREATE PROCEDURE search_student_dob (
+	IN p_dob date
+)
+BEGIN
+	SELECT DISTINCT s.rollno, CONCAT_WS(' ',s.firstname, s.surname) AS name, s.dob, s.gender , m.cmarks, m.cppmarks, m.javamarks, m.cmarks+m.cppmarks+m.javamarks AS total, (m.cmarks+m.cppmarks+m.javamarks)/3 AS percentage, calculate_grade(s.rollno) AS grade FROM student s JOIN marks m ON s.rollno = m.rno WHERE dob = p_dob;
+
+END$$
+
+
+DROP PROCEDURE IF EXISTS search_student_name;
+CREATE PROCEDURE search_student_name (
+	IN p_name VARCHAR(25)
+)
+BEGIN
+	SELECT DISTINCT s.rollno, CONCAT_WS(' ',s.firstname, s.surname) AS name, s.dob, s.gender , m.cmarks, m.cppmarks, m.javamarks, m.cmarks+m.cppmarks+m.javamarks AS total, (m.cmarks+m.cppmarks+m.javamarks)/3 AS percentage, calculate_grade(s.rollno) AS grade FROM student s JOIN marks m ON s.rollno = m.rno WHERE s.firstname RLIKE CONCAT('^',p_name);
+
+END$$
+
+
+
+DROP PROCEDURE IF EXISTS search_student_percentage;
+CREATE PROCEDURE search_student_percentage (
+	IN p_percentage float
+)
+BEGIN
+	SELECT DISTINCT s.rollno, CONCAT_WS(' ',s.firstname, s.surname) AS name, s.dob, s.gender , m.cmarks, m.cppmarks, m.javamarks, m.cmarks+m.cppmarks+m.javamarks AS total, (m.cmarks+m.cppmarks+m.javamarks)/3 AS percentage, calculate_grade(s.rollno) AS grade FROM student s JOIN marks m ON s.rollno = m.rno HAVING percentage = p_percentage;
+
+END$$
+
+DROP PROCEDURE IF EXISTS search_student_grade;
+CREATE PROCEDURE search_student_grade (
+	IN p_grade VARCHAR(20)
+)
+BEGIN
+	SELECT DISTINCT s.rollno, CONCAT_WS(' ',s.firstname, s.surname) AS name, s.dob, s.gender , m.cmarks, m.cppmarks, m.javamarks, m.cmarks+m.cppmarks+m.javamarks AS total, (m.cmarks+m.cppmarks+m.javamarks)/3 AS percentage, calculate_grade(s.rollno) AS grade FROM student s JOIN marks m ON s.rollno = m.rno HAVING grade = p_grade;
+
+END$$
+
+
+
