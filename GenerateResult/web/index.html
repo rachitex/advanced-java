@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Enter Your Details</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <form method = "POST" action = "/Practical5/StudentData">
+            <table>
+                <tr>
+                    <td>ID: </td>
+                    <td><input type="text" name="txtId" placeholder="Enter your ID" /></td>
+                </tr>
+                <tr>
+                    <td>Name: </td>
+                    <td><input type="text" name="txtName" placeholder="Enter your Name" /></td>
+                </tr>
+                <tr>
+                    <td>Department: </td>
+                    <td>
+                        <select name="department">
+                            <option value="BCA">BCA</option>
+                            <option value="MCA">MCA</option>
+                            <option value="BBA">BBA</option>
+                            <option value="MBA">MBA</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="submit" name="btnNext" value="Next"/></td>
+                    <td><input type="reset" name="btnReset" value="Reset"/></td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>
