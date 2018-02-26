@@ -18,7 +18,9 @@ public class StudentData extends HttpServlet {
             String department = request.getParameter("department");
             //out.println(id+name+department);
             HttpSession session = request.getSession();
+            session.setAttribute("userid", id);
             session.setAttribute("username", name);
+            session.setAttribute("department", department);
             RequestDispatcher rd = request.getRequestDispatcher("/marks.html");  
             rd.forward(request, response);
         }

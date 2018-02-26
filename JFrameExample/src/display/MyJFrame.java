@@ -1,4 +1,7 @@
+package display;
 
+
+import display.DBConfiguration;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
@@ -139,7 +142,7 @@ public class MyJFrame extends javax.swing.JFrame {
         
          try{
              Connection con = DBConfiguration.gettingConnection();
-             String insertQuery = "insert into user(name, dob, email, phone) values "
+             String insertQuery = "insert into myuser(name, dob, email, phone) values "
                      + "(?, ?, ?, ?)";
              String name = jTextField1.getText();
              String dob = jTextField2.getText();
@@ -158,7 +161,7 @@ public class MyJFrame extends javax.swing.JFrame {
         }catch(Exception e){
         }
          this.setVisible(false);
-         new DisplayForm().setVisible(true);
+         //new DisplayForm().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed

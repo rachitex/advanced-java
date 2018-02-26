@@ -8,6 +8,10 @@
         <servlet-name>StudentMarks</servlet-name>
         <servlet-class>StudentMarks</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DisplayResult</servlet-name>
+        <servlet-class>DisplayResult</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>StudentData</servlet-name>
         <url-pattern>/StudentData</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>StudentMarks</servlet-name>
         <url-pattern>/StudentMarks</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DisplayResult</servlet-name>
+        <url-pattern>/DisplayResult</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
