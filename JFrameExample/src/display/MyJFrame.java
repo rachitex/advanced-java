@@ -155,6 +155,7 @@ public class MyJFrame extends javax.swing.JFrame {
              pstmt.setString(3, email);
              pstmt.setString(4, phone);
              pstmt.executeUpdate();
+             System.out.println("Data Inserted Successfully!!!");
              pstmt.close();
         }catch(SQLException e){
             e.printStackTrace();
