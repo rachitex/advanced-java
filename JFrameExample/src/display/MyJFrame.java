@@ -162,7 +162,7 @@ public class MyJFrame extends javax.swing.JFrame {
         }catch(Exception e){
         }
          this.setVisible(false);
-         //new DisplayForm().setVisible(true);
+         new DisplayFrame().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
