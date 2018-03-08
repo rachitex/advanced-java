@@ -5,6 +5,12 @@ import display.DBConfiguration;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class MyJFrame extends javax.swing.JFrame {
 
@@ -139,9 +145,9 @@ public class MyJFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         PreparedStatement pstmt = null;
-        
+        Connection con = DBConfiguration.gettingConnection();
          try{
-             Connection con = DBConfiguration.gettingConnection();
+             
              String insertQuery = "insert into myuser(name, dob, email, phone) values "
                      + "(?, ?, ?, ?)";
              String name = jTextField1.getText();
@@ -157,12 +163,53 @@ public class MyJFrame extends javax.swing.JFrame {
              pstmt.executeUpdate();
              System.out.println("Data Inserted Successfully!!!");
              pstmt.close();
+             
         }catch(SQLException e){
             e.printStackTrace();
         }catch(Exception e){
         }
          this.setVisible(false);
-         new DisplayFrame().setVisible(true);
+         JFrame frame = new JFrame();
+         JTable table = new JTable();
+         frame.setVisible(true);
+         Statement stmt = null;
+                ResultSet rs = null;
+                try{
+                    String[] columns = new String[] {
+                        "Id", "Name", "DOB", "Email", "Phone"
+                    };
+                    DefaultTableModel model = new DefaultTableModel();
+                    model.setColumnIdentifiers(columns);
+                    table = new JTable();
+                    table.setModel(model); 
+                    table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+                    table.setFillsViewportHeight(true);
+                    JScrollPane scroll = new JScrollPane(table);
+                    scroll.setHorizontalScrollBarPolicy(
+                    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                    scroll.setVerticalScrollBarPolicy(
+                    JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                    String selectQuery = "select * from myuser;";
+                    stmt = con.createStatement();
+                    rs = stmt.executeQuery(selectQuery);
+                    int id = 0;
+                    String name = "";
+                    String dob = "";
+                    String email = "";
+                    String phone = "";
+                    while(rs.next()){
+                        id = rs.getInt(1);
+                        name = rs.getString(2);
+                        dob = rs.getString(3);
+                        email = rs.getString(4);
+                        phone = rs.getString(5);
+                        model.addRow(new Object[]{id, name, dob, email, phone});
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                frame.setVisible(true);
+                frame.setSize(400,300);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
@@ -204,6 +251,7 @@ public class MyJFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MyJFrame().setVisible(true);
+                frame.setVisible(true);
             }
         });
     }
