@@ -64,7 +64,7 @@ public class InsertUpdateDelete {
                         case 2:
                             System.out.print("Enter ID of the student: ");
                             int updateId = scan.nextInt();
-                            String oldSelectQuery = "select * from student_info;";
+                            String oldSelectQuery = "select * from student_info where student_id = "+updateId;
                             stmt = con.createStatement();
                             rs = stmt.executeQuery(oldSelectQuery);
                             System.out.println("\nExisting Records: ");
@@ -129,7 +129,7 @@ public class InsertUpdateDelete {
                         case 3:
                             System.out.print("Enter ID of the student: ");
                             int deleteId = scan.nextInt();
-                            String oldDeleteSelectQuery = "select * from student_info;";
+                            String oldDeleteSelectQuery = "select * from student_info where student_id = "+deleteId;
                             stmt = con.createStatement();
                             rs = stmt.executeQuery(oldDeleteSelectQuery);
                             System.out.println("\nExisting Records: ");

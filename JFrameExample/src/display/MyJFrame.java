@@ -169,47 +169,7 @@ public class MyJFrame extends javax.swing.JFrame {
         }catch(Exception e){
         }
          this.setVisible(false);
-         JFrame frame = new JFrame();
-         JTable table = new JTable();
-         frame.setVisible(true);
-         Statement stmt = null;
-                ResultSet rs = null;
-                try{
-                    String[] columns = new String[] {
-                        "Id", "Name", "DOB", "Email", "Phone"
-                    };
-                    DefaultTableModel model = new DefaultTableModel();
-                    model.setColumnIdentifiers(columns);
-                    table = new JTable();
-                    table.setModel(model); 
-                    table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-                    table.setFillsViewportHeight(true);
-                    JScrollPane scroll = new JScrollPane(table);
-                    scroll.setHorizontalScrollBarPolicy(
-                    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-                    scroll.setVerticalScrollBarPolicy(
-                    JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-                    String selectQuery = "select * from myuser;";
-                    stmt = con.createStatement();
-                    rs = stmt.executeQuery(selectQuery);
-                    int id = 0;
-                    String name = "";
-                    String dob = "";
-                    String email = "";
-                    String phone = "";
-                    while(rs.next()){
-                        id = rs.getInt(1);
-                        name = rs.getString(2);
-                        dob = rs.getString(3);
-                        email = rs.getString(4);
-                        phone = rs.getString(5);
-                        model.addRow(new Object[]{id, name, dob, email, phone});
-                    }
-                }catch(Exception e){
-                    e.printStackTrace();
-                }
-                frame.setVisible(true);
-                frame.setSize(400,300);
+         new DisplayFrame().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
@@ -251,7 +211,6 @@ public class MyJFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MyJFrame().setVisible(true);
-                frame.setVisible(true);
             }
         });
     }
