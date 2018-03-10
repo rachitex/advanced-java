@@ -11,7 +11,7 @@ public class EchoServer {
     public static void main(String[] args) {
         // This if condition checks that command line argument is not less than 1
         if(args.length < 1){
-            System.err.println("Usage: java EchoServer <port number>");
+            System.err.println("Usage: java EchoServer 8005");
             System.exit(1);
         }
         System.out.println("Server started. Listening on Port 8005");

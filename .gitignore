@@ -22,3 +22,5 @@
 /UserAuthenticationServlet/build/
 /GenerateResult/build/
 /HadoopWordCount/target/
+/SingleClientServer/build/
+/Client/build/

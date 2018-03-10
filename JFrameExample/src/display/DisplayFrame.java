@@ -9,7 +9,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JFrame;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,9 +25,8 @@ public class DisplayFrame extends javax.swing.JFrame {
         initComponents();
         
             Connection con = DBConfiguration.gettingConnection();
-            JFrame frame = new JFrame();
-         JTable table = new JTable();
-         Statement stmt = null;
+            JTable jTable1 = new JTable();
+            Statement stmt = null;
                 ResultSet rs = null;
                 try{
                     String[] columns = new String[] {
@@ -36,15 +34,7 @@ public class DisplayFrame extends javax.swing.JFrame {
                     };
                     DefaultTableModel model = new DefaultTableModel();
                     model.setColumnIdentifiers(columns);
-                    table = new JTable();
-                    table.setModel(model); 
-                    /*table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-                    table.setFillsViewportHeight(true);
-                    JScrollPane scroll = new JScrollPane(table);
-                    scroll.setHorizontalScrollBarPolicy(
-                    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-                    scroll.setVerticalScrollBarPolicy(
-                    JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);*/
+                    jTable1.setModel(model);
                     String selectQuery = "select * from myuser;";
                     stmt = con.createStatement();
                     rs = stmt.executeQuery(selectQuery);
@@ -61,7 +51,6 @@ public class DisplayFrame extends javax.swing.JFrame {
                         phone = rs.getString(5);
                         model.addRow(new Object[]{id, name, dob, email, phone});
                     }
-                    frame.setVisible(true);
                 }catch(Exception e){
                     e.printStackTrace();
                 }
