@@ -23,9 +23,11 @@ public class DisplayFrame extends javax.swing.JFrame {
      */
     public DisplayFrame() {
         initComponents();
-        
-            Connection con = DBConfiguration.gettingConnection();
+            this.setVisible(true);
             JTable jTable1 = new JTable();
+            jTable1.add(this);
+            Connection con = DBConfiguration.gettingConnection();
+
             Statement stmt = null;
                 ResultSet rs = null;
                 try{
@@ -51,6 +53,7 @@ public class DisplayFrame extends javax.swing.JFrame {
                         phone = rs.getString(5);
                         model.addRow(new Object[]{id, name, dob, email, phone});
                     }
+                    
                 }catch(Exception e){
                     e.printStackTrace();
                 }

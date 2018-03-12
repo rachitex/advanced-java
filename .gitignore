@@ -24,3 +24,5 @@
 /HadoopWordCount/target/
 /SingleClientServer/build/
 /Client/build/
+/URLRedirect/nbproject/private/
+/URLRedirect/build/
