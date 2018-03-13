@@ -39,9 +39,9 @@
                 ResultSet rs = stmt.executeQuery(selectQuery);
                 if(rs.next()){
                 %>Login Successful!!! <br> Welcome, <%= userid %>
-<%            }else{
+<%            }else if(!rs.next()){
                 %>Login Failed!!!
-<%            }
+<%            }else{}
             rs.close();
             stmt.close();
            }catch(SQLException e){
