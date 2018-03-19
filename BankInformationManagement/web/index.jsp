@@ -12,6 +12,29 @@
         <title>Bank Information Management</title>
     </head>
     <body>
-        
+        <form action = "result.jsp" method = "get">
+            <table>
+                <tr>
+                    <td>
+                        <input type = 'text' name = 'txtName' placeholder = 'Enter Name' />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type = 'text' name = 'txtPhone' placeholder = 'Enter Phone Number' />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type = 'text' name = 'txtAccountNumber' placeholder = 'Enter Account Number' />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type = 'submit' name = 'btnSubmit' value = 'Submit' />
+                    </td>
+                </tr>
+            </table>
+        </form>
     </body>
 </html>
