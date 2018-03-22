@@ -31,7 +31,7 @@
         Select operation you want to perform: 
         <ul>
             <li><a href="deposit.jsp">Deposit</a></li>
-            <li><a href="#">Withdraw</a></li>
+            <li><a href="withdraw.jsp">Withdraw</a></li>
             <li><a href="display.jsp">Display Info</a></li>
         </ul>
     </body>
