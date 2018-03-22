@@ -16,7 +16,7 @@
            <jsp:setProperty name = 'bank' property = '*' />
        </jsp:useBean>
         <form action="withdraw.jsp">
-            <input type="text" name="txtAmount" placeholder="Enter Amount to Deposit">
+            <input type="text" name="txtAmount" placeholder="Enter Amount to Withdraw">
             <input type="submit" name = "btnSubmit" value="Go">
         </form>
        <%
