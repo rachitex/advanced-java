@@ -62,3 +62,6 @@
 /CurrencyConversion_Server/dist/
 /CurrencyConversion_Client/nbproject/private/
 /CurrencyConversion_Client/build/
+/StudentRESTApi/nbproject/private/
+/StudentRESTApi/build/
+/StudentRESTApi/dist/
