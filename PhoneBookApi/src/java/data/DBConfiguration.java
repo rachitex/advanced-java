@@ -29,5 +29,7 @@ public class DBConfiguration {
     } 
     
     public static void main(String[] args) {
+        /*DBConfiguration obj = new DBConfiguration();
+        System.out.println(obj.gettingConnection());*/
     }
 }

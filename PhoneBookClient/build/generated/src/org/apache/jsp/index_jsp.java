@@ -51,12 +51,16 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        <title>PhoneBook</title>\n");
       out.write("    </head>\n");
       out.write("    <body>\n");
-      out.write("        <form action = \"http://localhost:8080/PhoneBookApi/webresources/phonebook/viewAllData\" method = \"POST\">\n");
+      out.write("        <form action = \"http://localhost:8080/PhoneBookApi/webresources/phonebook/insertData\" method = \"POST\">\n");
       out.write("            <table>\n");
       out.write("                <tr><td><input type = \"text\" name = \"txtName\" placeholder=\"Enter Your Name\"></td></tr>\n");
       out.write("                <tr><td><input type = \"text\" name = \"txtMobile\" placeholder=\"Enter Your Mobile No.\"></td></tr>\n");
       out.write("                <tr><td><input type = \"text\" name = \"txtEmail\" placeholder=\"Enter Your Email\"></td></tr>\n");
       out.write("                <tr><td><input type = \"submit\" name = \"btnSubmit\" value=\"Submit\"></td></tr>\n");
+      out.write("                <tr><td><a href = \"http://localhost:8080/PhoneBookApi/webresources/phonebook/viewAllData\">View All Data</a></td></tr>\n");
+      out.write("                <tr><td><a href = \"view.jsp\">View Data</a></td></tr>\n");
+      out.write("                <tr><td><a href = \"update.jsp\">Update Data</a></td></tr>\n");
+      out.write("                <tr><td><a href = \"delete.jsp\">Delete Data</a></td></tr>\n");
       out.write("            </table>\n");
       out.write("        </form>\n");
       out.write("    </body>\n");

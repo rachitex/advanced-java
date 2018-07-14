@@ -26,6 +26,7 @@ public class InsertUpdateDelete {
         }catch(SQLException e){
         }catch(ClassNotFoundException e){
         }catch(Exception e){
+            e.getMessage();
         }
     }
    

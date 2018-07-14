@@ -24,7 +24,7 @@ import javax.ws.rs.core.MediaType;
 /**
  * REST Web Service
  *
- * @author Aman Singh
+ * @author moon
  */
 @Path("phonebook")
 public class PhonebookApiServer {
